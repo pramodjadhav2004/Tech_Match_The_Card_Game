@@ -28,4 +28,20 @@ body {
 .fmm-front { background: linear-gradient(135deg, #334155, #1e293b); color: #94a3b8; font-size: clamp(1.2rem, 3.5vw, 1.8rem); border: 3px solid #475569; }
 .fmm-back { background: linear-gradient(135deg, #e0f2fe, #bae6fd); transform: rotateY(180deg); border: 3px solid #38bdf8; color: #0369a1; }
 .fmm-card.fmm-matched .fmm-back { background: linear-gradient(135deg, #4ade80, #22c55e); border-color: #16a34a; color: #ffffff; }
+
+@keyframes fmmShake { 0%,100% { transform: rotateY(180deg) translateX(0); } 20% { transform: rotateY(180deg) translateX(-7px); } 40% { transform: rotateY(180deg) translateX(7px); } 60% { transform: rotateY(180deg) translateX(-4px); } 80% { transform: rotateY(180deg) translateX(4px); } }
+.fmm-card.fmm-shake { animation: fmmShake .45s ease; transition: box-shadow .2s ease; }
+.fmm-controls { display: flex; gap: 14px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
+.fmm-btn { padding: 12px 32px; font-family: 'Fredoka One', cursive; font-size: 1.1rem; border: none; border-radius: 50px; cursor: pointer; transition: all .15s ease; box-shadow: 0 5px 0 rgba(0,0,0,.3); letter-spacing: .5px; }
+.fmm-btn:hover { transform: translateY(-2px); } .fmm-btn:active { transform: translateY(3px); box-shadow: 0 2px 0 rgba(0,0,0,.3); }
+.fmm-btn-start { background: linear-gradient(135deg, #3b82f6, #2563eb); color: #fff; box-shadow: 0 5px 0 #1d4ed8; }
+.fmm-btn-reset { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; box-shadow: 0 5px 0 #b91c1c; }
+.fmm-win-msg { flex-direction: column; align-items: center; gap: 10px; background: linear-gradient(135deg, #f0fdf4, #dcfce7); border: 5px solid #22c55e; border-radius: 28px; padding: 30px 36px; margin: 12px auto; max-width: 440px; width: 90%; text-align: center; box-shadow: 0 16px 48px rgba(0,0,0,.3); animation: fmmWinPop .5s cubic-bezier(.34,1.56,.64,1); }
+.fmm-win-ico { font-size: 3.5rem; animation: fmmSpin 2s linear infinite; }
+.fmm-win-title { font-family: 'Fredoka One', cursive; font-size: 2rem; color: #166534; margin: 0 0 6px; }
+.fmm-win-stats { font-size: 1rem; color: #14532d; margin: 0 0 14px; line-height: 1.8; }
+@keyframes fmmWinPop { from { transform: scale(.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes fmmSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@media (max-width: 600px) { .fmm-board { grid-template-columns: repeat(4, 1fr); gap: 7px; padding: 0 8px; } .fmm-face { font-size: 1.3rem; } .fmm-stat { padding: 6px 12px; font-size: .9rem; } .fmm-title { font-size: 1.2rem; } }
+
 }
