@@ -21,6 +21,18 @@
             </div>
 
             <div id="fmm-board" class="fmm-board"></div>
+            <!-- Win message (hidden until win) -->
+            <div id="fmm-win-msg" class="fmm-win-msg" style="display:none;">
+                <div class="fmm-win-ico">🏆</div>
+                <h2 class="fmm-win-title">Deployed to Production!</h2>
+                <p id="fmm-win-stats" class="fmm-win-stats"></p>
+            </div>
+
+            <!-- Controls -->
+            <div class="fmm-controls">
+                <button id="fmm-start-btn" class="fmm-btn fmm-btn-start">🎬 Run Script</button>
+                <button id="fmm-reset-btn" class="fmm-btn fmm-btn-reset" style="display:none;">🔄 Restart Server</button>
+            </div>
         </div>
     </div>
     <script src="script.js"></script>
