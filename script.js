@@ -32,4 +32,41 @@ document.addEventListener('DOMContentLoaded', function () {
         }); 
     } 
 
+
+    function fmmOnClick(e) {
+        if (!fmmStarted || fmmLocked) return;
+        const el = e.currentTarget;
+        const idx = parseInt(el.dataset.idx, 10);
+        
+        if (fmmMatched.has(idx) || fmmFlipped.find(c => c.idx === idx) || fmmFlipped.length >= 2) return;
+
+        el.classList.add('fmm-flipped');
+        fmmFlipped.push({ idx, el, icon: el.dataset.icon });
+        fmmFlipCount++;
+        if (fmmFlipsEl) fmmFlipsEl.textContent = fmmFlipCount;
+
+        if (fmmFlipped.length === 2) {
+            fmmLocked = true;
+            setTimeout(fmmCheck, 900);
+        }
+    }
+
+    function fmmCheck() {
+        const [a, b] = fmmFlipped;
+        if (a.icon === b.icon) {
+            a.el.classList.add('fmm-matched'); b.el.classList.add('fmm-matched');
+            fmmMatched.add(a.idx); fmmMatched.add(b.idx);
+            fmmFlipped = []; fmmLocked = false;
+            if (fmmMatched.size === fmmCards.length) fmmWin();
+        } else {
+            fmmErrorCount++;
+            if (fmmErrorsEl) fmmErrorsEl.textContent = fmmErrorCount;
+            a.el.classList.add('fmm-shake'); b.el.classList.add('fmm-shake');
+            setTimeout(() => {
+                a.el.classList.remove('fmm-flipped', 'fmm-shake');
+                b.el.classList.remove('fmm-flipped', 'fmm-shake');
+                fmmFlipped = []; fmmLocked = false;
+            }, 1000);
+        }
+    }
 });
