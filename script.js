@@ -69,4 +69,56 @@ document.addEventListener('DOMContentLoaded', function () {
             }, 1000);
         }
     }
+
+    function fmmStartTimer() {
+        fmmSecs = 0; if (fmmTimerEl) fmmTimerEl.textContent = '00:00';
+        fmmTimerInt = setInterval(() => { fmmSecs++; if (fmmTimerEl) fmmTimerEl.textContent = fmmFmt(fmmSecs); }, 1000);
+    }
+    function fmmStopTimer() { clearInterval(fmmTimerInt); fmmTimerInt = null; }
+
+    function fmmStartGame() {
+        fmmFlipped = []; fmmMatched = new Set(); fmmFlipCount = 0; fmmErrorCount = 0;
+        fmmStarted = true; fmmLocked = false;
+        if (fmmFlipsEl) fmmFlipsEl.textContent = '0';
+        if (fmmErrorsEl) fmmErrorsEl.textContent = '0';
+        if (fmmStartBtn) fmmStartBtn.style.display = 'none';
+        if (fmmResetBtn) fmmResetBtn.style.display = 'inline-block';
+        if (fmmWinMsg) fmmWinMsg.style.display = 'none';
+        fmmBuildBoard(); fmmStartTimer();
+    }
+
+    function fmmWin() {
+        fmmStopTimer(); fmmStarted = false; fmmLocked = true;
+        const emojis = ['🚀','💻','⌨️','🎉','✨','🐛','☕'];
+        if (!document.getElementById('fmm-fall-style')) {
+            const s = document.createElement('style'); s.id = 'fmm-fall-style';
+            s.textContent = `@keyframes fmmFallAnim{to{transform:translateY(110vh) rotate(720deg);opacity:0}}`;
+            document.head.appendChild(s);
+        }
+        for (let i = 0; i < 40; i++) {
+            setTimeout(() => {
+                const c = document.createElement('div'); c.textContent = emojis[0 | (Math.random() * emojis.length)];
+                c.style.cssText = `position:fixed;left:${Math.random()*100}vw;top:-40px;font-size:${20+Math.random()*20}px;animation:fmmFallAnim ${2+Math.random()*2}s linear forwards;pointer-events:none;z-index:9999`;
+                document.body.appendChild(c); setTimeout(() => c.remove(), 4500);
+            }, i * 80);
+        }
+        if (fmmWinStats) fmmWinStats.innerHTML = `⏱️ Runtime: <strong>${fmmFmt(fmmSecs)}</strong> &nbsp;|&nbsp; 🔄 Executions: <strong>${fmmFlipCount}</strong> &nbsp;|&nbsp; ❌ Bugs: <strong>${fmmErrorCount}</strong>`;
+        if (fmmWinMsg) fmmWinMsg.style.display = 'flex';
+    }
+
+    function fmmReset() {
+        fmmStopTimer(); fmmStarted = false; fmmLocked = false;
+        fmmFlipped = []; fmmMatched = new Set(); fmmFlipCount = 0; fmmErrorCount = 0;
+        if (fmmStartBtn) fmmStartBtn.style.display = 'inline-block';
+        if (fmmResetBtn) fmmResetBtn.style.display = 'none';
+        if (fmmWinMsg) fmmWinMsg.style.display = 'none';
+        if (fmmTimerEl) fmmTimerEl.textContent = '00:00';
+        if (fmmFlipsEl) fmmFlipsEl.textContent = '0';
+        if (fmmErrorsEl) fmmErrorsEl.textContent = '0';
+        fmmBuildBoard();
+    }
+
+    if (fmmStartBtn) fmmStartBtn.addEventListener('click', fmmStartGame);
+    if (fmmResetBtn) fmmResetBtn.addEventListener('click', fmmReset);
+    fmmBuildBoard();
 });
